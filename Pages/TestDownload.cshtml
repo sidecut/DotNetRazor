@@ -1,0 +1,37 @@
+﻿@page
+@model TestDownloadModel
+@{
+    ViewData["Title"] = "Test Download";
+}
+
+<div id="downloadApp">
+    <div class="row">
+        <div class="col-md-3">
+            <h2>Download stuff</h2>
+            <form action="~/TestDownload" method="post" v-on:submit="loading = true">
+                <label>Sleep time:<input type="number" asp-for="SleepTime" /></label>
+                <button type="submit">Initiate Download</button>
+                <button @@click="loading = false">Cancel</button>
+            </form>
+        </div>
+    </div>
+    <div class="row" v-show="loading">
+        <div class="col-md-3">
+            <h2>&nbsp;</h2>
+            <h2>Form to display</h2>
+            <p>The content is loading...<img src="~/images/Facebook.svg" style="height: 32px; width: 32px;" /></p>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+    var vm = new Vue({
+        data: {
+            SleepTime: @Html.Raw(Model.SleepTime),
+            loading: false
+        },
+        el: "#downloadApp"
+    });
+    </script>
+}
