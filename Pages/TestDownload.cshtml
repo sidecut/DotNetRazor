@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-md-3">
             <h2>Download stuff</h2>
-            <form action="~/TestDownload" x-action="//cnn.com" method="post" v-on:submit="onSubmit" target="downloadTarget">
+            <form action="~/TestDownload" x-action="//cnn.com" method="post" v-on:submit="onSubmit" x-target="downloadTarget">
                 <label>Sleep time:<input type="number" asp-for="SleepTime" v-model="SleepTime" /><input type="button" v-on:click="reset" value="Reset" /></label>
                 <button type="submit">Initiate Download</button>
                 <button v-on:click.prevent="onCancel">Cancel</button>
