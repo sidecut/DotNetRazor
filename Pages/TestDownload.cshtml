@@ -12,6 +12,7 @@
                 <label>Sleep time:<input type="number" asp-for="SleepTime" v-model="SleepTime" /><input type="button" v-on:click="reset" value="Reset" /></label>
                 <button type="submit">Initiate Download</button>
                 <button v-on:click.prevent="onCancel">Cancel</button>
+                <input x-type="hidden" name="Nonce" v-model="Nonce" />
             </form>
         </div>
     </div>
@@ -31,7 +32,8 @@
     var vm = new Vue({
         data: {
             SleepTime: @Html.Raw(Model.SleepTime),
-            loading: false
+            loading: false,
+            Nonce: ""
         },
         el: "#downloadApp",
         mounted() {
@@ -44,7 +46,8 @@
                 this.loading = false;
             },
             onSubmit() {
-                console.log("Submit");
+                this.Nonce = new Date().valueOf();
+                console.log("Submit with Nonce", this.Nonce);
                 this.loading = true;
             },
             fileLoaded() {

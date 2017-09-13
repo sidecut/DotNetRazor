@@ -8,6 +8,9 @@ namespace DotNetRazor.Pages
         [BindProperty]
         public int SleepTime { get; set; } = 5000;
 
+        [BindProperty]
+        public string Nonce { get; set; }
+
         public void OnGet()
         {
 
@@ -18,6 +21,7 @@ namespace DotNetRazor.Pages
             System.Threading.Thread.Sleep(SleepTime);
 
             Response.Headers["Content-disposition"] = "Attachment; filename=\"Flintstones.csv\"";
+            Response.Cookies.Append("Download-nonce", Nonce);
             return new ContentResult()
             {
                 Content = "FirstName,LastName,Age\nFred,Flintstone,35\nBarney,Rubble,35\nWilma,Flintstone,33\nBetty,Rubble,33",
