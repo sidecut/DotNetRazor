@@ -13,13 +13,6 @@ namespace DotNetRazor.Pages
 
         }
 
-        //public IActionResult OnPost()
-        //{
-        //    Debugger.Break();
-
-        //    return Page();
-        //}
-
         public IActionResult OnPost()
         {
             System.Threading.Thread.Sleep(SleepTime);

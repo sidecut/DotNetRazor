@@ -33,3 +33,7 @@ body {
         display: none;
     }
 }
+
+[v-cloak] {
+    display: none;
+}

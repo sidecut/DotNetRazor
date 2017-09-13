@@ -4,12 +4,12 @@
     ViewData["Title"] = "Test Download";
 }
 
-<div id="downloadApp">
+<div id="downloadApp" v-cloak>
     <div class="row">
         <div class="col-md-3">
             <h2>Download stuff</h2>
-            <form action="~/TestDownload" method="post" v-on:submit="onSubmit">
-                <label>Sleep time:<input type="number" asp-for="SleepTime" /></label>
+            <form action="~/TestDownload" x-action="//cnn.com" method="post" v-on:submit="onSubmit" target="downloadTarget">
+                <label>Sleep time:<input type="number" asp-for="SleepTime" v-model="SleepTime" /><input type="button" v-on:click="reset" value="Reset" /></label>
                 <button type="submit">Initiate Download</button>
                 <button v-on:click.prevent="onCancel">Cancel</button>
             </form>
@@ -22,6 +22,8 @@
             <p>The content is loading...<img src="~/images/Spinner.svg" style="height: 48px; width: 48px;" /></p>
         </div>
     </div>
+
+    <iframe style="x-display: none; height=10em; width=100vh;" name="downloadTarget" ref="downloadTarget"></iframe>
 </div>
 
 @section Scripts {
@@ -32,6 +34,10 @@
             loading: false
         },
         el: "#downloadApp",
+        mounted() {
+            console.log("Mounted");
+            this.$refs.downloadTarget.addEventListener("load", this.fileLoaded);
+        },
         methods: {
             onCancel() {
                 console.log("Cancel");
@@ -40,6 +46,12 @@
             onSubmit() {
                 console.log("Submit");
                 this.loading = true;
+            },
+            fileLoaded() {
+                console.log("loaded");
+            },
+            reset() {
+                this.SleepTime = this.SleepTime ? 0 : 5000;
             }
         }
     });
