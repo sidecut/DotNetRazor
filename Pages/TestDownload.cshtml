@@ -8,18 +8,18 @@
     <div class="row">
         <div class="col-md-3">
             <h2>Download stuff</h2>
-            <form action="~/TestDownload" method="post" v-on:submit="loading = true">
+            <form action="~/TestDownload" method="post" v-on:submit="onSubmit">
                 <label>Sleep time:<input type="number" asp-for="SleepTime" /></label>
                 <button type="submit">Initiate Download</button>
-                <button @@click="loading = false">Cancel</button>
+                <button v-on:click.prevent="onCancel">Cancel</button>
             </form>
         </div>
     </div>
+    <h2>&nbsp;</h2>
     <div class="row" v-show="loading">
-        <div class="col-md-3">
-            <h2>&nbsp;</h2>
+        <div class="col-md-3" style="border: 1px solid gray">
             <h2>Form to display</h2>
-            <p>The content is loading...<img src="~/images/Facebook.svg" style="height: 32px; width: 32px;" /></p>
+            <p>The content is loading...<img src="~/images/Spinner.svg" style="height: 48px; width: 48px;" /></p>
         </div>
     </div>
 </div>
@@ -31,7 +31,17 @@
             SleepTime: @Html.Raw(Model.SleepTime),
             loading: false
         },
-        el: "#downloadApp"
+        el: "#downloadApp",
+        methods: {
+            onCancel() {
+                console.log("Cancel");
+                this.loading = false;
+            },
+            onSubmit() {
+                console.log("Submit");
+                this.loading = true;
+            }
+        }
     });
     </script>
 }
