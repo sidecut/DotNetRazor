@@ -8,9 +8,9 @@
     <div class="row">
         <div class="col-md-3">
             <h2>Download stuff</h2>
-            <form x-action="~/TestDownload" action="//httpbin.org/post" method="post" onsubmit="return false" ref="form">
+            <form action="~/TestDownload" method="post" v-on:submit="onSubmit" ref="form">
                 <label>Sleep time:<input type="number" asp-for="SleepTime" v-model="SleepTime" /><input type="button" v-on:click="reset" value="Reset" /></label>
-                <button type="submit" v-on:click="onSubmit">Initiate Download</button>
+                <button type="submit">Initiate Download</button>
                 <button v-on:click.prevent="onCancel">Cancel</button>
                 <div>
                     This would normally be a hidden field:
@@ -55,12 +55,6 @@
 
                 var form = this.$refs.form;
                 console.log(form);
-
-                Vue.nextTick(() => {
-                    form.submit()
-                });
-                //form.submit();      // will this cause an endless loop?
-                //return false;
             },
             reset() {
                 this.SleepTime = this.SleepTime ? 0 : 5000;
