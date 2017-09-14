@@ -40,21 +40,21 @@
         },
         el: "#downloadApp",
         mounted() {
-            console.log("Mounted");
+            console.debug("Mounted");
         },
         methods: {
             onCancel() {
-                console.log("Cancel");
+                console.debug("Cancel");
                 this.stopMonitoringNonce();
             },
             onSubmit() {
                 this.Nonce = new Date().valueOf();
-                console.log("Submit with Nonce", this.Nonce);
+                console.debug("Submit with Nonce", this.Nonce);
                 this.loading = true;
                 this.startMonitoringNonce();
 
                 var form = this.$refs.form;
-                console.log(form);
+                console.debug(form);
             },
             reset() {
                 this.SleepTime = this.SleepTime ? 0 : 5000;
@@ -63,7 +63,7 @@
                 const self = this;
                 this.monitoring = true;
                 this.intervalHandle = window.setInterval(() => {
-                    console.log("Checking Nonce cookie");
+                    console.debug("Checking Nonce cookie");
                     if (document.cookie.includes("Download-nonce=" + this.Nonce)) {
                         this.stopMonitoringNonce();
                     }
