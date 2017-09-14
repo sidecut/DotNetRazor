@@ -33,7 +33,9 @@
         data: {
             SleepTime: @Html.Raw(Model.SleepTime),
             loading: false,
-            Nonce: ""
+            Nonce: "",
+            monitoring: false,
+            intervalHandle: 0
         },
         el: "#downloadApp",
         mounted() {
@@ -43,18 +45,33 @@
         methods: {
             onCancel() {
                 console.log("Cancel");
-                this.loading = false;
+                this.stopMonitoringNonce();
             },
             onSubmit() {
                 this.Nonce = new Date().valueOf();
                 console.log("Submit with Nonce", this.Nonce);
                 this.loading = true;
+                this.startMonitoringNonce();
             },
             fileLoaded() {
                 console.log("loaded");
             },
             reset() {
                 this.SleepTime = this.SleepTime ? 0 : 5000;
+            },
+            startMonitoringNonce() {
+                const self = this;
+                this.monitoring = true;
+                this.intervalHandle = window.setInterval(() => {
+                    console.log("Checking Nonce cookie");
+                    if (document.cookie.includes("Download-nonce=" + this.Nonce)) {
+                        this.stopMonitoringNonce();
+                    }
+                }, 1000);
+            },
+            stopMonitoringNonce() {
+                this.loading = this.monitoring = false;
+                window.clearInterval(this.intervalHandle);
             }
         }
     });
