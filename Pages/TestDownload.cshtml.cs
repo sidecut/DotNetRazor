@@ -21,7 +21,7 @@ namespace DotNetRazor.Pages
             System.Threading.Thread.Sleep(SleepTime);
 
             Response.Headers["Content-disposition"] = "Attachment; filename=\"Flintstones.csv\"";
-            Response.Cookies.Append("Download-nonce", Nonce);
+            Response.Cookies.Append($"Download-nonce-{Nonce}", Nonce);
             return new ContentResult()
             {
                 Content = "FirstName,LastName,Age\nFred,Flintstone,35\nBarney,Rubble,35\nWilma,Flintstone,33\nBetty,Rubble,33",

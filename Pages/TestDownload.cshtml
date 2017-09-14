@@ -64,7 +64,9 @@
                 this.monitoring = true;
                 this.intervalHandle = window.setInterval(() => {
                     console.debug("Checking Nonce cookie");
-                    if (document.cookie.includes("Download-nonce=" + this.Nonce)) {
+                    var cookieName = `Download-nonce-${this.Nonce}`;
+                    if (document.cookie.includes(cookieName)) {
+                        console.debug(`${cookieName} received`);
                         this.stopMonitoringNonce();
                     }
                 }, 1000);
