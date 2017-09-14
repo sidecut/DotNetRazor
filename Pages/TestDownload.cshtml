@@ -8,11 +8,14 @@
     <div class="row">
         <div class="col-md-3">
             <h2>Download stuff</h2>
-            <form action="~/TestDownload" method="post" v-on:submit="onSubmit">
+            <form x-action="~/TestDownload" action="//httpbin.org/post" method="post" onsubmit="return false" ref="form">
                 <label>Sleep time:<input type="number" asp-for="SleepTime" v-model="SleepTime" /><input type="button" v-on:click="reset" value="Reset" /></label>
-                <button type="submit">Initiate Download</button>
+                <button type="submit" v-on:click="onSubmit">Initiate Download</button>
                 <button v-on:click.prevent="onCancel">Cancel</button>
-                <input x-type="hidden" name="Nonce" v-model="Nonce" />
+                <div>
+                    This would normally be a hidden field:
+                    <input x-type="hidden" name="Nonce" v-model="Nonce" />
+                </div>
             </form>
         </div>
     </div>
@@ -49,6 +52,15 @@
                 console.log("Submit with Nonce", this.Nonce);
                 this.loading = true;
                 this.startMonitoringNonce();
+
+                var form = this.$refs.form;
+                console.log(form);
+
+                Vue.nextTick(() => {
+                    form.submit()
+                });
+                //form.submit();      // will this cause an endless loop?
+                //return false;
             },
             reset() {
                 this.SleepTime = this.SleepTime ? 0 : 5000;
@@ -65,6 +77,7 @@
             },
             stopMonitoringNonce() {
                 this.loading = this.monitoring = false;
+                this.Nonce = null;
                 window.clearInterval(this.intervalHandle);
             }
         }
